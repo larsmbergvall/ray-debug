@@ -44,8 +44,8 @@ impl From<BacktraceSymbol> for Origin {
 }
 
 impl Origin {
-    pub fn capture() -> Self {
-        if let Some(symbol) = Self::get_symbols() {
+    pub fn capture(place_in_stack: Option<usize>) -> Self {
+        if let Some(symbol) = Self::get_symbols(place_in_stack.unwrap_or(4)) {
             return Self::from(symbol);
         }
 
@@ -66,15 +66,16 @@ impl Origin {
         }
     }
 
-    fn get_symbols() -> Option<BacktraceSymbol> {
+    fn get_symbols(place_in_stack: usize) -> Option<BacktraceSymbol> {
         let trace = Backtrace::new();
 
-        // This is 3 because the first place in our code is this function (trace = Backtrace::new()),
-        // the second is Self::capture(), and the third should be whatever called Self::capture().
-        // Symbols found before this is rusts internal stuff and crates, and should be ignored.
+        // About place_in_stack:
+        //
+        // This is normally 4 because the first place in our code is this function (trace = Backtrace::new()),
+        // the second is Self::capture(), and the third should be whatever called Self::capture(). Symbols
+        // found before this is rusts internal stuff and external crates, and should be ignored.
         //
         // TODO: Make sure this is actually correct.
-        let place_in_stack = 3;
 
         let mut found_symbols = None;
         let mut found = 0;
