@@ -3,22 +3,24 @@ use serde::Serialize;
 use std::collections::HashMap;
 
 #[derive(Serialize, Debug)]
-pub struct LogPayload {
+pub struct HtmlPayload {
     #[serde(rename = "type")]
     payload_type: String,
-    content: HashMap<String, Vec<String>>,
+
+    content: HashMap<String, String>,
     origin: Origin,
 }
 
-impl LogPayload {
+impl HtmlPayload {
     pub fn new<T: Into<String>>(value: T) -> Self {
         let mut content = HashMap::new();
-        content.insert("values".to_string(), vec![value.into()]);
+        content.insert("content".to_string(), value.into());
+        content.insert("label".to_string(), "HTML".to_string());
 
         Self {
-            payload_type: "log".to_string(),
-            content,
+            payload_type: "custom".to_string(),
             origin: Origin::capture(Some(5)),
+            content,
         }
     }
 }

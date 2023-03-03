@@ -1,20 +1,23 @@
 use crate::ray_request::RayRequest;
 use serde::Serialize;
-use std::collections::HashMap;
 use std::error::Error;
 
 mod ray_color;
 mod ray_request;
 
-pub async fn ray<T: Serialize>(value: T) -> Result<RayRequest, Box<dyn Error>> {
-    RayRequest::log(value, None).send().await
+pub async fn ray_log<T: Into<String>>(value: T) -> Result<RayRequest, Box<dyn Error>> {
+    RayRequest::log(value.into(), None).send().await
 }
 
-fn is_valid_json() -> bool {
-    false
+pub async fn ray<T: Serialize>(value: &T) -> Result<RayRequest, Box<dyn Error>> {
+    let json = get_json(value, true);
+
+    RayRequest::html(helpers::json_to_html(json), None)
+        .send()
+        .await
 }
 
-fn get_json<T: Serialize>(value: T, pretty_print: bool) -> String {
+fn get_json<T: Serialize>(value: &T, pretty_print: bool) -> String {
     match pretty_print {
         true => match serde_json::to_string_pretty(&value) {
             Ok(json) => json,
@@ -27,13 +30,7 @@ fn get_json<T: Serialize>(value: T, pretty_print: bool) -> String {
     }
 }
 
-fn content_or_panic<T: Serialize>(value: T, pretty_print: bool) -> HashMap<String, Vec<String>> {
-    let mut content = HashMap::new();
-    content.insert("values".to_string(), vec![get_json(&value, pretty_print)]);
-
-    content
-}
-
+mod helpers;
 mod meta;
 mod origin;
 mod payloads;

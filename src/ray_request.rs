@@ -1,4 +1,5 @@
 use crate::meta::Meta;
+use crate::payloads::html_payload::HtmlPayload;
 use crate::payloads::log_payload::LogPayload;
 use crate::payloads::payload::Payload;
 use crate::ray_color::RayColor;
@@ -29,10 +30,16 @@ impl RayRequest {
         }
     }
 
-    pub fn log<T: Serialize>(value: T, uuid: Option<String>) -> Self {
+    pub fn log<T: Into<String>>(value: T, uuid: Option<String>) -> Self {
         let payload = LogPayload::new(value);
 
         Self::new(vec![Payload::Log(payload)], Meta::new(), uuid)
+    }
+
+    pub fn html<T: Into<String>>(html: T, uuid: Option<String>) -> Self {
+        let payload = HtmlPayload::new(html);
+
+        Self::new(vec![Payload::Html(payload)], Meta::new(), uuid)
     }
 
     pub fn green(&self) -> &Self {
@@ -64,10 +71,6 @@ impl RayRequest {
     }
 
     pub fn charles(&self) -> &Self {
-        todo!();
-    }
-
-    pub fn html<T: Into<String>>(&self, _html: T) -> &Self {
         todo!();
     }
 
