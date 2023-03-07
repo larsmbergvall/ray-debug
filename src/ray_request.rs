@@ -74,16 +74,26 @@ impl RayRequest {
         todo!();
     }
 
-    pub async fn send(self) -> Result<Self, Box<dyn Error>> {
-        let request = reqwest::Client::new();
-        let result = request
-            .post(format!("{}:{}", HOST, PORT))
-            .json(&self)
-            .send()
-            .await?;
+    pub fn send(self) -> Result<Self, Box<dyn Error>> {
+        let request = reqwest::blocking::Client::new();
 
-        dbg!(result);
+        let result = request.post(Self::url()).json(&self).send();
+
+        if result.is_ok() {
+            return Ok(self);
+        }
+
+        Err(Box::new(result.err().unwrap()))
+    }
+
+    pub async fn send_async(self) -> Result<Self, Box<dyn Error>> {
+        let request = reqwest::Client::new();
+        let result = request.post(Self::url()).json(&self).send().await?;
 
         Ok(self)
+    }
+
+    fn url() -> String {
+        format!("{}:{}", HOST, PORT)
     }
 }

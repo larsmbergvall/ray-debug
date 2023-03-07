@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+mod integration;
 mod meta_test;
 mod origin_test;
 
@@ -9,10 +10,4 @@ pub struct TestUser {
     pub age: u8,
     pub country: String,
     pub email: String,
-}
-
-#[tokio::test]
-async fn it_works() {
-    // Used just for testing sending requests...
-    todo!()
 }
