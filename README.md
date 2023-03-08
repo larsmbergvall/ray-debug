@@ -7,7 +7,7 @@ A Rust adapter for Spatie's fantastic debugging tool, [Ray](https://spatie.be/pr
 Only basic debugging is implemented at the moment, so you can use it like:
 
 ```rust
-use ray_rs::{ray, ray_log};
+use ray_debug::{ray, ray_log};
 
 // ...
 fn do_stuff() {
