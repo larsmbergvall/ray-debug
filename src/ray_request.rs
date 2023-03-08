@@ -88,9 +88,11 @@ impl RayRequest {
 
     pub async fn send_async(self) -> Result<Self, Box<dyn Error>> {
         let request = reqwest::Client::new();
-        let result = request.post(Self::url()).json(&self).send().await?;
 
-        Ok(self)
+        match request.post(Self::url()).json(&self).send().await {
+            Ok(_) => Ok(self),
+            Err(e) => Err(Box::new(e)),
+        }
     }
 
     fn url() -> String {
