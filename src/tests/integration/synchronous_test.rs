@@ -17,8 +17,14 @@ fn sync_ray_works() {
         country: "SE".into(),
         email: "sync_ray_works@localhost.example".into(),
     };
+    let user2 = TestUser {
+        name: "::name2::".into(),
+        age: 24,
+        country: "SE".into(),
+        email: "sync_ray_works_for_another_user@localhost.example".into(),
+    };
 
-    if let Err(e) = ray(&user) {
+    if let Err(e) = ray(&[user, user2]) {
         panic!("{}", e);
     }
 }

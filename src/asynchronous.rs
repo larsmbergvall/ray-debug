@@ -9,8 +9,9 @@ pub async fn ray_log<T: Into<String>>(value: T) -> Result<RayRequest, Box<dyn Er
 
 pub async fn ray<T: Serialize>(value: &T) -> Result<RayRequest, Box<dyn Error>> {
     let json = helpers::get_json(value, true);
+    let serde_value = serde_json::from_str(&json).unwrap();
 
-    RayRequest::html(helpers::json_to_html(json), None)
+    RayRequest::html(helpers::value_to_html(&serde_value), None)
         .send_async()
         .await
 }
