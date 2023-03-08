@@ -1,8 +1,8 @@
 [package]
-name = "ray-rs"
+name = "ray-debug"
 version = "0.0.1"
 edition = "2021"
-repository = "https://github.com/larsmbergvall/ray-rs"
+repository = "https://github.com/larsmbergvall/ray-debug"
 keywords = ["debug", "ray"]
 categories = ["development-tools"]
 license = "MIT"

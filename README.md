@@ -1,4 +1,4 @@
-# Ray-rs
+# ray-debug
 
 A Rust adapter for Spatie's fantastic debugging tool, [Ray](https://spatie.be/products/ray).
 
