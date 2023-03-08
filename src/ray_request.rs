@@ -33,13 +33,13 @@ impl RayRequest {
     pub fn log<T: Into<String>>(value: T, uuid: Option<String>) -> Self {
         let payload = LogPayload::new(value);
 
-        Self::new(vec![Payload::Log(payload)], Meta::new(), uuid)
+        Self::new(vec![Payload::Log(payload)], Meta::default(), uuid)
     }
 
     pub fn html<T: Into<String>>(html: T, uuid: Option<String>) -> Self {
         let payload = HtmlPayload::new(html);
 
-        Self::new(vec![Payload::Html(payload)], Meta::new(), uuid)
+        Self::new(vec![Payload::Html(payload)], Meta::default(), uuid)
     }
 
     pub fn green(&self) -> &Self {

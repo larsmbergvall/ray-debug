@@ -31,7 +31,6 @@ fn to_html(theme: &str, value: &Value) -> Markup {
         Value::String(s) => string(theme, s),
         Value::Array(a) => array(theme, a),
         Value::Object(obj) => object(theme, obj),
-        _ => html!("Unknown data type"),
     }
 }
 

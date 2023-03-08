@@ -9,7 +9,7 @@ fn it_gets_correct_data() {
         _ => panic!("Could not get version"),
     };
 
-    let meta = Meta::new();
+    let meta = Meta::default();
 
     assert_eq!(expected, meta.rustc_version);
     assert_eq!("ray", meta.project_name);

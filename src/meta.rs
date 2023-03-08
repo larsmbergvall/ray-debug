@@ -1,4 +1,4 @@
-use rustc_version::{version, version_meta};
+use rustc_version::version_meta;
 use serde::Serialize;
 
 const PKG_NAME: Option<&str> = option_env!("CARGO_PKG_NAME");
@@ -11,8 +11,8 @@ pub struct Meta {
     pub project_version: String,
 }
 
-impl Meta {
-    pub fn new() -> Self {
+impl Default for Meta {
+    fn default() -> Self {
         let version = version_meta();
         let rustc_version = match version {
             Ok(version_meta) => version_meta.semver.to_string(),
