@@ -1,7 +1,7 @@
 use backtrace::{Backtrace, BacktraceSymbol};
 use serde::Serialize;
 
-#[derive(Serialize, Debug)]
+#[derive(Serialize, Debug, Clone)]
 pub struct Origin {
     pub function_name: String,
     pub file: String,
@@ -50,6 +50,15 @@ impl Origin {
         }
 
         Self::default()
+    }
+
+    pub fn test() -> Self {
+        Self {
+            function_name: "test_function".to_string(),
+            file: "file_name.rs".to_string(),
+            line_number: 0,
+            hostname: "test_hostname".to_string(),
+        }
     }
 
     pub fn new<T: Into<String>>(function_name: T, file: T, line_number: usize) -> Self {
