@@ -1,26 +1,25 @@
 use crate::origin::Origin;
+use crate::ray_color::RayColor;
 use serde::Serialize;
 use std::collections::HashMap;
 
 #[derive(Serialize, Debug)]
-pub struct HtmlPayload {
+pub struct ColorPayload {
     #[serde(rename = "type")]
     payload_type: String,
-
     content: HashMap<String, String>,
     pub origin: Origin,
 }
 
-impl HtmlPayload {
-    pub fn new<T: Into<String>>(value: T) -> Self {
+impl ColorPayload {
+    pub fn new(color: RayColor) -> Self {
         let mut content = HashMap::new();
-        content.insert("content".to_string(), value.into());
-        content.insert("label".to_string(), "HTML".to_string());
+        content.insert("color".to_string(), color.to_string());
 
         Self {
-            payload_type: "custom".to_string(),
-            origin: Origin::capture(Some(5)),
+            payload_type: "color".to_string(),
             content,
+            origin: Origin::capture(Some(5)),
         }
     }
 }

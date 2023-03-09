@@ -11,6 +11,24 @@ pub struct Meta {
     pub project_version: String,
 }
 
+impl Meta {
+    pub fn new(rustc_version: String, project_name: String, project_version: String) -> Self {
+        Self {
+            rustc_version,
+            project_name,
+            project_version,
+        }
+    }
+
+    pub fn test() -> Self {
+        Self {
+            rustc_version: "1.0".to_string(),
+            project_name: "test_project".to_string(),
+            project_version: "1.0".to_string(),
+        }
+    }
+}
+
 impl Default for Meta {
     fn default() -> Self {
         let version = version_meta();

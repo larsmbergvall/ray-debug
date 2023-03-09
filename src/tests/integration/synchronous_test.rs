@@ -1,4 +1,4 @@
-use crate::tests::TestUser;
+use crate::tests::{TestPost, TestUser};
 use crate::{ray, ray_log};
 
 #[test]
@@ -17,14 +17,14 @@ fn sync_ray_works() {
         country: "SE".into(),
         email: "sync_ray_works@localhost.example".into(),
     };
-    let user2 = TestUser {
-        name: "::name2::".into(),
-        age: 24,
-        country: "SE".into(),
-        email: "sync_ray_works_for_another_user@localhost.example".into(),
+
+    let post = TestPost {
+        title: "Foo".to_string(),
+        year: 1980,
+        author: user,
     };
 
-    if let Err(e) = ray(&[user, user2]) {
+    if let Err(e) = ray(&[post]).unwrap().green() {
         panic!("{}", e);
     }
 }

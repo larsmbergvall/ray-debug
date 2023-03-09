@@ -1,4 +1,6 @@
 use crate::meta::Meta;
+use crate::origin::Origin;
+use crate::payloads::color_payload::ColorPayload;
 use crate::payloads::html_payload::HtmlPayload;
 use crate::payloads::log_payload::LogPayload;
 use crate::payloads::payload::Payload;
@@ -42,36 +44,52 @@ impl RayRequest {
         Self::new(vec![Payload::Html(payload)], Meta::default(), uuid)
     }
 
-    pub fn green(&self) -> &Self {
+    pub fn green(self) -> Result<Self, Box<dyn Error>> {
         self.color(RayColor::Green)
     }
 
-    pub fn orange(&self) -> &Self {
+    pub fn orange(self) -> Result<Self, Box<dyn Error>> {
         self.color(RayColor::Orange)
     }
 
-    pub fn red(&self) -> &Self {
+    pub fn red(self) -> Result<Self, Box<dyn Error>> {
         self.color(RayColor::Red)
     }
 
-    pub fn purple(&self) -> &Self {
+    pub fn purple(self) -> Result<Self, Box<dyn Error>> {
         self.color(RayColor::Purple)
     }
 
-    pub fn blue(&self) -> &Self {
+    pub fn blue(self) -> Result<Self, Box<dyn Error>> {
         self.color(RayColor::Blue)
     }
 
-    pub fn gray(&self) -> &Self {
+    pub fn gray(self) -> Result<Self, Box<dyn Error>> {
         self.color(RayColor::Gray)
     }
 
-    fn color(&self, _color: RayColor) -> &Self {
-        todo!();
+    fn color(mut self, color: RayColor) -> Result<Self, Box<dyn Error>> {
+        self.payloads = vec![Payload::Color(ColorPayload::new(color))];
+
+        self.send()
     }
 
     pub fn charles(&self) -> &Self {
         todo!();
+    }
+
+    pub fn with_meta(mut self, meta: Meta) -> Self {
+        self.meta = meta;
+
+        self
+    }
+
+    pub fn with_origin(mut self, origin: Origin) -> Self {
+        for payload in &mut self.payloads {
+            payload.set_origin(origin.clone());
+        }
+
+        self
     }
 
     pub fn send(self) -> Result<Self, Box<dyn Error>> {

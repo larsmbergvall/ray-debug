@@ -7,7 +7,7 @@ pub struct LogPayload {
     #[serde(rename = "type")]
     payload_type: String,
     content: HashMap<String, Vec<String>>,
-    origin: Origin,
+    pub origin: Origin,
 }
 
 impl LogPayload {
