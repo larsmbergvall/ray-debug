@@ -13,3 +13,10 @@ pub struct TestUser {
     pub country: String,
     pub email: String,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TestPost {
+    pub author: TestUser,
+    pub title: String,
+    pub year: u16,
+}
