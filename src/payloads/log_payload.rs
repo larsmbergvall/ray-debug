@@ -18,7 +18,7 @@ impl LogPayload {
         Self {
             payload_type: "log".to_string(),
             content,
-            origin: Origin::capture(Some(5)),
+            origin: Origin::capture(None),
         }
     }
 }

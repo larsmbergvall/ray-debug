@@ -19,7 +19,7 @@ impl HtmlPayload {
 
         Self {
             payload_type: "custom".to_string(),
-            origin: Origin::capture(Some(5)),
+            origin: Origin::capture(None),
             content,
         }
     }

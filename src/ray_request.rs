@@ -68,12 +68,6 @@ impl RayRequest {
         self.color(RayColor::Gray)
     }
 
-    fn color(mut self, color: RayColor) -> Result<Self, Box<dyn Error>> {
-        self.payloads = vec![Payload::Color(ColorPayload::new(color))];
-
-        self.send()
-    }
-
     pub fn charles(&self) -> &Self {
         todo!();
     }
@@ -111,6 +105,12 @@ impl RayRequest {
             Ok(_) => Ok(self),
             Err(e) => Err(Box::new(e)),
         }
+    }
+
+    fn color(mut self, color: RayColor) -> Result<Self, Box<dyn Error>> {
+        self.payloads = vec![Payload::Color(ColorPayload::new(color))];
+
+        self.send()
     }
 
     fn url() -> String {
