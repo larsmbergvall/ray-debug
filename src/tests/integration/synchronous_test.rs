@@ -1,5 +1,5 @@
 use crate::tests::{TestPost, TestUser};
-use crate::{ray, ray_log};
+use crate::{ray, ray_charles, ray_log};
 
 // Ignore these tests by default, so they don't run in CI. They expect ray or ray-proxy
 // to be running anyway so it's not practical.
@@ -8,6 +8,14 @@ use crate::{ray, ray_log};
 #[test]
 fn sync_ray_log_works() {
     if let Err(e) = ray_log("sync_ray_log_works()") {
+        panic!("{}", e);
+    }
+}
+
+#[ignore]
+#[test]
+fn sync_ray_charles_works() {
+    if let Err(e) = ray_charles() {
         panic!("{}", e);
     }
 }

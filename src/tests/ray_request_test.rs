@@ -38,6 +38,34 @@ fn it_has_correct_structure_when_logging_text() {
 }
 
 #[test]
+fn it_has_correct_structure_when_doing_a_charles() {
+    let expected_json = json!({
+        "type": "log",
+        "content": {
+            "values": [
+                "🎶 🎹 🎷 🕺"
+            ]
+        },
+        "origin": {
+            "function_name": "test_function",
+            "file": "file_name.rs",
+            "line_number": 0,
+            "hostname": "test_hostname"
+        }
+    });
+
+    let request = RayRequest::new(
+        vec![Payload::Log(LogPayload::charles())],
+        Meta::test(),
+        Some("some-totally-real-uuid".to_string()),
+    )
+    .with_origin(Origin::test());
+    let request_payload_value = get_first_payload_as_json_value(&request);
+
+    assert_eq!(request_payload_value, expected_json);
+}
+
+#[test]
 fn it_has_correct_structure_when_logging_struct() {
     let expected_json = json!({
       "type": "custom",

@@ -21,4 +21,8 @@ impl LogPayload {
             origin: Origin::capture(None),
         }
     }
+
+    pub fn charles() -> Self {
+        Self::new("🎶 🎹 🎷 🕺")
+    }
 }
