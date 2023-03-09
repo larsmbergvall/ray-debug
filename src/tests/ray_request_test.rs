@@ -6,47 +6,40 @@ use crate::payloads::log_payload::LogPayload;
 use crate::payloads::payload::Payload;
 use crate::ray_color::RayColor;
 use crate::ray_request::RayRequest;
-use crate::tests::helpers::expected_json;
+use crate::tests::helpers::get_first_payload_as_json_value;
+use serde_json::json;
 
 #[test]
 fn it_has_correct_structure_when_logging_text() {
-    let payload = LogPayload::new("foo");
-    let payload_json = r#"
-    {
-      "type": "log",
-      "content": {
-        "values": [
-          "foo"
-        ]
-      },
-      "origin": {
-        "function_name": "test_function",
-        "file": "file_name.rs",
-        "line_number": 0,
-        "hostname": "test_hostname"
-      }
-    }
-"#;
-
-    let expected_json = expected_json(Some("some-totally-real-uuid"), payload_json);
+    let expected_json = json!({
+        "type": "log",
+        "content": {
+            "values": [
+                "foo"
+            ]
+        },
+        "origin": {
+            "function_name": "test_function",
+            "file": "file_name.rs",
+            "line_number": 0,
+            "hostname": "test_hostname"
+        }
+    });
 
     let request = RayRequest::new(
-        vec![Payload::Log(payload)],
+        vec![Payload::Log(LogPayload::new("foo"))],
         Meta::test(),
         Some("some-totally-real-uuid".to_string()),
     )
     .with_origin(Origin::test());
+    let request_payload_value = get_first_payload_as_json_value(&request);
 
-    let json = serde_json::to_string_pretty(&request).unwrap();
-
-    assert_eq!(json, expected_json);
+    assert_eq!(request_payload_value, expected_json);
 }
 
 #[test]
 fn it_has_correct_structure_when_logging_struct() {
-    let payload = HtmlPayload::new("<div>foo</div>");
-    let payload_json = r#"
-    {
+    let expected_json = json!({
       "type": "custom",
       "content": {
         "content": "<div>foo</div>",
@@ -58,28 +51,23 @@ fn it_has_correct_structure_when_logging_struct() {
         "line_number": 0,
         "hostname": "test_hostname"
       }
-    }
-"#;
-
-    let expected_json = expected_json(Some("some-totally-real-uuid"), payload_json);
+    });
 
     let request = RayRequest::new(
-        vec![Payload::Html(payload)],
+        vec![Payload::Html(HtmlPayload::new("<div>foo</div>"))],
         Meta::test(),
         Some("some-totally-real-uuid".to_string()),
     )
     .with_origin(Origin::test());
 
-    let json = serde_json::to_string_pretty(&request).unwrap();
+    let request_payload_value = get_first_payload_as_json_value(&request);
 
-    assert_eq!(json, expected_json);
+    assert_eq!(request_payload_value, expected_json);
 }
 
 #[test]
 fn it_has_correct_structure_when_changing_color_of_payload() {
-    let payload = ColorPayload::new(RayColor::Green);
-    let payload_json = r#"
-    {
+    let expected_json = json!({
       "type": "color",
       "content": {
         "color": "green"
@@ -90,19 +78,16 @@ fn it_has_correct_structure_when_changing_color_of_payload() {
         "line_number": 0,
         "hostname": "test_hostname"
       }
-    }
-"#;
-
-    let expected_json = expected_json(Some("some-totally-real-uuid"), payload_json);
+    });
 
     let request = RayRequest::new(
-        vec![Payload::Color(payload)],
+        vec![Payload::Color(ColorPayload::new(RayColor::Green))],
         Meta::test(),
         Some("some-totally-real-uuid".to_string()),
     )
     .with_origin(Origin::test());
 
-    let json = serde_json::to_string_pretty(&request).unwrap();
+    let request_payload_value = get_first_payload_as_json_value(&request);
 
-    assert_eq!(json, expected_json);
+    assert_eq!(request_payload_value, expected_json);
 }

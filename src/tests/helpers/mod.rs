@@ -1,20 +1,15 @@
-pub fn expected_json<T: Into<String>>(uuid: Option<T>, payload_json: T) -> String {
-    let uuid = match uuid {
-        Some(v) => v.into(),
-        None => "some-uuid".to_string(),
-    };
+use crate::ray_request::RayRequest;
+use serde_json::Value;
 
-    let expected_json = r#"{
-  "uuid": "{UUID}",
-  "payloads": [{PAYLOAD}  ],
-  "meta": {
-    "rustc_version": "1.0",
-    "project_name": "test_project",
-    "project_version": "1.0"
-  }
-}"#;
+pub fn get_first_payload_as_json_value(request: &RayRequest) -> Value {
+    let request_json_value =
+        serde_json::to_value(request).expect("Failed to convert RayRequest to Value");
 
-    expected_json
-        .replace("{UUID}", &uuid)
-        .replace("{PAYLOAD}", &payload_json.into())
+    let value = request_json_value
+        .get("payloads")
+        .expect("Failed to get payloads from RayRequest")
+        .get(0)
+        .expect("Failed to get first index of RayRequest -> payloads");
+
+    value.clone()
 }
