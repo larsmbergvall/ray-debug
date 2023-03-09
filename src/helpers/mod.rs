@@ -100,7 +100,7 @@ fn dark(key: &str) -> String {
         "number" => "font-weight: bold; color: #1299DA;",
         "string" => "font-weight: bold; color: #56DB3A;",
         "quote" => "font-weight: bold; color: #aaa",
-        "key" => "padding-right: 1rem; color: #ccc",
+        "key" => "padding-right: 1rem; color: #ccc; vertical-align: top;",
         "indent" => "padding-left: 1.5rem;",
         "array_item_container" => "padding-bottom: 1rem;",
         "curly_brace" => "color: cyan;",
