@@ -1,5 +1,7 @@
 # ray-debug
 
+[![Rust](https://github.com/larsmbergvall/ray-debug/actions/workflows/rust.yml/badge.svg)](https://github.com/larsmbergvall/ray-debug/actions/workflows/rust.yml)
+
 A Rust adapter for Spatie's fantastic debugging tool, [Ray](https://spatie.be/products/ray).
 
 **This is a work in progress, so breaking changes are likely to occur! Also, not all Ray features are yet implemented!**
