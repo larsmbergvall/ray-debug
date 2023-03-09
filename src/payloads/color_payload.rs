@@ -19,7 +19,7 @@ impl ColorPayload {
         Self {
             payload_type: "color".to_string(),
             content,
-            origin: Origin::capture(Some(5)),
+            origin: Origin::capture(None),
         }
     }
 }

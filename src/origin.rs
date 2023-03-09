@@ -45,7 +45,7 @@ impl From<BacktraceSymbol> for Origin {
 
 impl Origin {
     pub fn capture(place_in_stack: Option<usize>) -> Self {
-        if let Some(symbol) = Self::get_symbols(place_in_stack.unwrap_or(4)) {
+        if let Some(symbol) = Self::get_symbols(place_in_stack.unwrap_or(6)) {
             return Self::from(symbol);
         }
 
