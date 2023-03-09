@@ -11,6 +11,12 @@ async fn async_ray_log_works() {
 
 #[ignore]
 #[tokio::test]
+async fn async_ray_charles_works() {
+    asynchronous::ray_charles().await.unwrap();
+}
+
+#[ignore]
+#[tokio::test]
 async fn async_ray_works() {
     // Used just for testing sending requests...
     let user = TestUser {

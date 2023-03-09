@@ -8,8 +8,10 @@ use crate::ray_color::RayColor;
 use serde::Serialize;
 use std::error::Error;
 
-const HOST: &str = "http://127.0.0.1";
-const PORT: u32 = 23517;
+const HOST: Option<&str> = option_env!("RAY_HOST");
+const PORT: Option<&str> = option_env!("RAY_PORT");
+const DEFAULT_HOST: &str = "http://127.0.0.1";
+const DEFAULT_PORT: &str = "23517";
 
 #[derive(Serialize, Debug)]
 pub struct RayRequest {
@@ -114,6 +116,10 @@ impl RayRequest {
     }
 
     fn url() -> String {
-        format!("{}:{}", HOST, PORT)
+        format!(
+            "{}:{}",
+            HOST.unwrap_or(DEFAULT_HOST),
+            PORT.unwrap_or(DEFAULT_PORT)
+        )
     }
 }

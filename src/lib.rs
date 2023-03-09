@@ -1,5 +1,8 @@
 use std::error::Error;
 
+use crate::meta::Meta;
+use crate::payloads::log_payload::LogPayload;
+use crate::payloads::payload::Payload;
 use serde::Serialize;
 
 use crate::ray_request::RayRequest;
@@ -16,6 +19,15 @@ pub fn ray<T: Serialize>(value: &T) -> Result<RayRequest, Box<dyn Error>> {
     let serde_value = serde_json::from_str(&json).unwrap();
 
     RayRequest::html(helpers::value_to_html(&serde_value), None).send()
+}
+
+pub fn ray_charles() -> Result<RayRequest, Box<dyn Error>> {
+    RayRequest::new(
+        vec![Payload::Log(LogPayload::charles())],
+        Meta::default(),
+        None,
+    )
+    .send()
 }
 
 pub mod asynchronous;
