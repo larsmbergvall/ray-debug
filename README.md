@@ -4,7 +4,7 @@
 
 A Rust adapter for Spatie's fantastic debugging tool, [Ray](https://spatie.be/products/ray).
 
-**This is a work in progress, so breaking changes are likely to occur! Also, not all Ray features are yet implemented!**
+**This is a work in progress, so bugs and breaking changes are likely to occur! Also, not all Ray features are yet implemented!**
 
 ## Setup
 
@@ -21,16 +21,16 @@ RAY_PORT=23517
 Only basic debugging is implemented at the moment, so you can use it like:
 
 ```rust
-use ray_debug::{ray, ray_log};
+use ray_debug::ray;
 
 // ...
 fn do_stuff() {
     // ...
     ray(&some_struct);
-    ray_log("foo");
     
     // To set color:
     ray(&some_struct).unwrap().orange();
-    ray_log("foo").unwrap().green();
 }
 ```
+
+Your struct needs to implement the trait `serde::Serialize` for this to work. You can also call `ray()` with strings, integers etc.
