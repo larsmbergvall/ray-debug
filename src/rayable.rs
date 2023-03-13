@@ -44,6 +44,12 @@ impl Rayable for i64 {
     }
 }
 
+impl<T: serde::Serialize> Rayable for Vec<T> {
+    fn into_ray_request(self) -> RayRequest {
+        to_html_request(&self)
+    }
+}
+
 fn to_html_request<T: Serialize>(value: &T) -> RayRequest {
     let json = helpers::get_json(value, false);
     let serde_value = serde_json::from_str(&json).unwrap();
