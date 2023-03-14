@@ -40,3 +40,43 @@ fn sync_ray_works() {
         panic!("{}", e);
     }
 }
+
+#[ignore]
+#[test]
+fn generic_ray_works_with_serializable_struct() {
+    let user = TestUser {
+        name: "::name::".into(),
+        age: 42,
+        country: "SE".into(),
+        email: "sync_ray_works@localhost.example".into(),
+    };
+
+    if let Err(e) = ray(&user).unwrap().green() {
+        panic!("{}", e);
+    }
+
+    if let Err(e) = ray("&str").unwrap().green() {
+        panic!("{}", e);
+    }
+
+    let a_string_ref = String::from("&a_string");
+    let a_string = String::from("a_string");
+
+    if let Err(e) = ray(&a_string_ref).unwrap().green() {
+        panic!("{}", e);
+    }
+
+    if let Err(e) = ray(a_string).unwrap().green() {
+        panic!("{}", e);
+    }
+
+    if let Err(e) = ray(123).unwrap().green() {
+        panic!("{}", e);
+    }
+
+    let tiny_int: u8 = 5;
+
+    if let Err(e) = ray(&tiny_int).unwrap().green() {
+        panic!("{}", e);
+    }
+}
