@@ -6,6 +6,14 @@ A Rust adapter for Spatie's fantastic debugging tool, [Ray](https://spatie.be/pr
 
 **This is a work in progress, so bugs and breaking changes are likely to occur! Also, not all Ray features are yet implemented!**
 
+## Installation
+
+`cargo add ray-debug`
+
+or add this to your `cargo.toml`:
+
+`ray-debug = "0.0.4"`
+
 ## Setup
 
 By default, Ray is listening on http://localhost:23517. If you need to use another host or port, you can specify env
